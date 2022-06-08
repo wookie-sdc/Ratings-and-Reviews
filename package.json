@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon RatingReviewServer/index.js -w"
+    "start": "npx nodemon RatingReviewServer/index.js -w",
+    "kill": "npx kill-port 3000"
   },
   "repository": {
     "type": "git",

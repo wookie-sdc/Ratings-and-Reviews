@@ -23,12 +23,34 @@ CREATE TABLE reviews (
 CREATE TABLE photos (
   id INTEGER,
   review_id INTEGER,
-  url VARCHAR(200)
+  url VARCHAR(200),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE char (
+  id INTEGER,
+  product_id INTEGER,
+  name VARCHAR (10),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE revchar (
+  id INTEGER,
+  characteristic_id INTEGER,
+  review INTEGER,
+  value INTEGER,
+  PRIMARY KEY (id)
 );
 
 COPY reviews FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews.csv' DELIMITER ',' CSV HEADER;
 
 COPY photos FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews_photos.csv' DELIMITER ',' CSV HEADER;
+
+COPY char FROM '/home/joshspc/Desktop/HackReactor/SDCwook/characteristics.csv' DELIMITER ',' CSV HEADER;
+
+COPY revchar FROM '/home/joshspc/Desktop/HackReactor/SDCwook/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
+
+
 
 -- reviews v
 -- id,product_id,rating,date,summary,body,recommend,reported,reviewer_name,reviewer_email,response (null or string),helpfulness
@@ -38,3 +60,11 @@ COPY photos FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews_photos.csv' 
 
 
 -- /home/joshspc/Desktop/HackReactor/SDCwook/Ratings-and-Reviews/schema.sql
+
+-- char_review
+-- id,characteristic_id,review_id,value
+-- 19327575,3347679,5774952,5
+
+-- char
+-- id,product_id,name
+-- 3347679,1000011,"Quality"
