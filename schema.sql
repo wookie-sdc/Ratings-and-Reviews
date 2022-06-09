@@ -15,10 +15,12 @@ CREATE TABLE reviews (
   reported BOOLEAN,
   reviewer_name VARCHAR (60),
   reviewer_email VARCHAR (60),
-  response VARCHAR,
+  response VARCHAR DEFAULT null,
   helpfulness INTEGER,
   PRIMARY KEY (id)
 );
+
+-- change default for response as null;
 
 CREATE TABLE photos (
   id INTEGER,
@@ -49,6 +51,29 @@ COPY photos FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews_photos.csv' 
 COPY char FROM '/home/joshspc/Desktop/HackReactor/SDCwook/characteristics.csv' DELIMITER ',' CSV HEADER;
 
 COPY revchar FROM '/home/joshspc/Desktop/HackReactor/SDCwook/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
+
+ALTER TABLE reviews
+  RENAME COLUMN id TO review_id;
+
+-- ALTER TABLE reviews
+--   ADD  photos text[] DEFAULT array[]::varchar[];
+
+
+
+
+
+
+-- CREATE TABLE ratings (
+--   id SERIAL,
+--   product_id INTEGER,
+--   five INTEGER,
+--   four INTEGER,
+--   three INTEGER,
+--   two INTEGER,
+--   one INTEGER,
+--   PRIMARY KEY (id)
+-- );
+
 
 
 
