@@ -11,9 +11,9 @@ app.use(express.json());
 
 app.get('/test', controller);
 
+
 app.listen(3000, () => {
   console.log("listening on port 3000")
 });
-
 
 client.connect();
