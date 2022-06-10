@@ -44,6 +44,12 @@ CREATE TABLE revchar (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE avgchar (
+  id SERIAL,
+  value INTEGER,
+
+);
+
 COPY reviews FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews.csv' DELIMITER ',' CSV HEADER;
 
 COPY photos FROM '/home/joshspc/Desktop/HackReactor/SDCwook/reviews_photos.csv' DELIMITER ',' CSV HEADER;

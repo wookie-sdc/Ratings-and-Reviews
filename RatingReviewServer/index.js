@@ -9,7 +9,9 @@ const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.get('/test', controller);
+app.get('/reviews', controller.getReviews);
+
+app.get('/reviews/meta', controller.getMetaData);
 
 
 app.listen(3000, () => {
