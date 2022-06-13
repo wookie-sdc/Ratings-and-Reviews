@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx nodemon RatingReviewServer/index.js -w",
-    "kill": "npx kill-port 3000"
+    "kill": "npx kill-port 3000",
+    "k6": "k6 run script.js"
   },
   "repository": {
     "type": "git",
