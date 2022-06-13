@@ -30,8 +30,62 @@ module.exports = {
 
   getMetaData: (cb, values) => {
     client.query (
-      `SELECT avg(revchar.value) FILTER (WHERE char.name = 'Fit') AS average1 FROM revchar JOIN char ON revchar.characteristic_id = char.id LIMIT 5`
-
+      `WITH allratings AS (
+        SELECT
+        reviews.product_id,
+        COUNT(reviews.rating) FILTER (WHERE reviews.rating = 1) AS one,
+        COUNT(reviews.rating) FILTER (WHERE reviews.rating = 2) AS two,
+        COUNT(reviews.rating) FILTER (WHERE reviews.rating = 3) AS three,
+        COUNT(reviews.rating) FILTER (WHERE reviews.rating = 4) AS four,
+        COUNT(reviews.rating) FILTER (WHERE reviews.rating = 5) AS five
+        FROM reviews
+        WHERE reviews.product_id = $1
+        GROUP BY reviews.product_id
+      ), allrecommends AS (
+        SELECT
+        reviews.product_id,
+        COUNT(reviews.recommend) FILTER (WHERE reviews.recommend = false) as false,
+        COUNT(reviews.recommend) FILTER (WHERE reviews.recommend = true) as true
+        FROM reviews
+        WHERE reviews.product_id = $1
+        GROUP BY reviews.product_id
+      )
+      SELECT
+      allratings.product_id,
+      JSON_BUILD_OBJECT('false', allrecommends.false, 'true', allrecommends.true) AS recommended,
+      JSON_BUILD_OBJECT('one', allratings.one, 'two', allratings.two, 'three', allratings.three, 'four', allratings.four, 'five', allratings.five) AS ratings,
+      JSON_BUILD_OBJECT(
+        'Fit', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.fit),
+        'Length', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.length),
+        'Comfort', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.comfort),
+        'Quality', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.quality),
+        'Width', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.width),
+        'Size', JSON_BUILD_OBJECT('id', avgchar.id, 'value', avgchar.size)
+      ) AS characteristics
+      FROM reviews
+      JOIN allratings
+      ON reviews.product_id = allratings.product_id
+      JOIN allrecommends
+      ON reviews.product_id = allrecommends.product_id
+      JOIN avgchar
+      ON reviews.product_id = avgchar.product_id
+      GROUP BY
+       allratings.product_id,
+       allrecommends.false,
+       allrecommends.true,
+       allratings.one,
+       allratings.two,
+       allratings.three,
+       allratings.four,
+       allratings.five,
+       avgchar.id,
+       avgchar.fit,
+       avgchar.length,
+       avgchar.comfort,
+       avgchar.quality,
+       avgchar.size,
+       avgchar.size
+      `
       , values, (err, result) => {
         if (err) {
           console.log(err, 'error at model');
@@ -44,6 +98,34 @@ module.exports = {
 
 }
 
+// , allrecommends AS (
+//   SELECT
+//   reviews.product_id,
+//   COUNT(reviews.recommend) FILTER (WHERE reviews.recommend = false) as false,
+//   COUNT(reviews.recommend) FILTER (WHERE reviews.recommend = true) as true
+//   FROM reviews
+//   WHERE reviews.product_id = $1
+//   GROUP BY reviews.product_id
+// )
+      // SELECT avgchar.product_id, JSON_CREATE_OBJECT('ratings', allratings.*)
+      // FROM avgchar
+      // JOIN allratings ON reviews.product_id = avgchar.product_id
+      // LIMIT 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 json build object (
   'characteristics',
@@ -55,8 +137,4 @@ Inside table1:
     'Size',
     table with an id and average value
   )
-
-
-
-
 */

@@ -27,7 +27,7 @@ module.exports = {
       } else {
         res.status(200).json(response);
       }
-    })
+    }, values)
   }
 
 }
