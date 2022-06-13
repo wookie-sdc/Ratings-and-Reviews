@@ -18,7 +18,13 @@ module.exports = {
       // WHERE reviews.product_id = $1
       // LIMIT $2
       // `
-      'SELECT * FROM reviews WHERE product_id = $1 LIMIT $2'
+
+      `SELECT
+        $1::integer AS product,
+        0 AS page,
+        $2::integer AS count,
+       jsonb_agg(to_jsonb(reviews.*) - 'product_id') AS results FROM reviews WHERE product_id = $1 LIMIT $2`
+      // 'SELECT * FROM reviews WHERE product_id = $1 LIMIT $2'
     , values, (err, result) => {
     if (err) {
       console.log(err, 'error at model')
