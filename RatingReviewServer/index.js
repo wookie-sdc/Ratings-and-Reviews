@@ -14,8 +14,8 @@ app.get('/reviews', controller.getReviews);
 app.get('/reviews/meta', controller.getMetaData);
 
 
-app.listen(3000, () => {
-  console.log("listening on port 3000")
+app.listen(process.env.PORT, () => {
+  console.log(`listening on port ${process.env.PORT}`)
 });
 
 client.connect();
