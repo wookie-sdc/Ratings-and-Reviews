@@ -12,7 +12,7 @@ module.exports = {
     }
     models.getReviews((err, response) => {
       if (err) {
-        console.log('error at controller');
+        console.log(err, 'error at controller');
       } else {
         res.status(200).json(response);
       }

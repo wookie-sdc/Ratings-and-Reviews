@@ -1,10 +1,10 @@
-const client = require('../db.js');
+const pool = require('../db.js');
 
 
 module.exports = {
 
   getReviews: (cb, values) => {
-    client.query (
+    pool.query (
       // `WITH photos AS (
       //   SELECT review_id, jsonb_agg(to_jsonb(photos) - 'review_id') AS photos
       //   FROM photos
@@ -35,7 +35,7 @@ module.exports = {
   },
 
   getMetaData: (cb, values) => {
-    client.query (
+    pool.query (
       `WITH allratings AS (
         SELECT
         reviews.product_id,
