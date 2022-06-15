@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
-const client = require('./db.js');
+// const client = require('./db.js');
+const pool = require('./db.js');
 const controller = require('./controllers');
 
 
@@ -18,4 +19,4 @@ app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}`)
 });
 
-client.connect();
+pool.connect();
